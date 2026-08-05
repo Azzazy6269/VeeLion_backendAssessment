@@ -2,6 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
+const dotenv = require('dotenv');
 
 
 const tasksRouter = require('./modules/tasks/routes/tasks.routes');
@@ -9,7 +10,10 @@ const activityRouter = require('./modules/activity/routes/activity.routes');
 const errorHandler = require('./middleware/errorHandler');
 const HttpError = require('./utils/httpError');
 
+
+dotenv.config();
 const app = express();
+
 app.use(helmet());
 app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
 if (process.env.NODE_ENV === 'development') {
