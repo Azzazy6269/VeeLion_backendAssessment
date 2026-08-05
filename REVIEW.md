@@ -25,3 +25,12 @@
 **What is wrong:** The server handles requests silently without showing any information about it
 **Why it is a problem:** If an error occured you can't define it. You need to make monitoring the server easier
 **How to improve:** Install and use Morgan package to show data about requests like (HTTP Method, URL, Status Code, Response Time, Response Size in dev mood) morever, IP address and referrer in combined mood. There's other moods like: common, tiny and short
+
+
+### 5. Use XSS package to prevent cross site scripting
+**Category:** Security
+**What is wrong:** Hackers can send scripts as data to be run in the server.
+**Why it is a problem:** scripts can be sent to the server to affect it's behaviour.
+**How to improve:** Install and use XSS.
+
+
