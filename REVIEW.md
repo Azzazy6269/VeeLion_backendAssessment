@@ -10,3 +10,11 @@
 **What is wrong:** The application does not set standard HTTP security headers
 **Why it is a problem:** The server is vulnerable to dangerous attacks like Cross-Site Scripting (XSS), Clickjacking and others
 **How to improve:** use helmet package to set security headers
+
+
+
+### 3. Use the CORS package to specify who can access the APIs
+**Category:** Security
+**What is wrong:** The application does not have CORS configured.
+**Why it is a problem:** Requests from the frontend application will be blocked by the browser due to the Same-Origin Policy.
+**How to improve:** Install and configure the CORS middleware, specifying the allowed origins.

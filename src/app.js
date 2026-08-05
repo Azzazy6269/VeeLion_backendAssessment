@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const tasksRouter = require('./modules/tasks/routes/tasks.routes');
 const activityRouter = require('./modules/activity/routes/activity.routes');
@@ -8,6 +9,7 @@ const HttpError = require('./utils/httpError');
 
 const app = express();
 app.use(helmet());
+app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
 
 
 app.use(express.json());
