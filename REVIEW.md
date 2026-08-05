@@ -18,3 +18,10 @@
 **What is wrong:** The application does not have CORS configured.
 **Why it is a problem:** Requests from the frontend application will be blocked by the browser due to the Same-Origin Policy.
 **How to improve:** Install and configure the CORS middleware, specifying the allowed origins.
+
+
+### 4. Use Morgan package to show requests details
+**Category:** Maintainability
+**What is wrong:** The server handles requests silently without showing any information about it
+**Why it is a problem:** If an error occured you can't define it. You need to make monitoring the server easier
+**How to improve:** Install and use Morgan package to show data about requests like (HTTP Method, URL, Status Code, Response Time, Response Size in dev mood) morever, IP address and referrer in combined mood. There's other moods like: common, tiny and short
