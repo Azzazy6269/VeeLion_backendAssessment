@@ -4,6 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const { xss } = require('express-xss-sanitizer');
+const hpp = require('hpp');
 
 const tasksRouter = require('./modules/tasks/routes/tasks.routes');
 const activityRouter = require('./modules/activity/routes/activity.routes');
@@ -26,6 +27,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 app.use(xss());
+app.use(hpp());
 
 app.use('/tasks', tasksRouter);
 app.use('/activity', activityRouter);

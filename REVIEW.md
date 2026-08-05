@@ -34,3 +34,8 @@
 **How to improve:** Install and use XSS.
 
 
+### 6. Vulnerability to HTTP Parameter Pollution - HPP
+**Category:** Security
+**What is wrong:** The API does not prevent or clean up duplicate query parameters in HTTP requests.
+**Why it is a problem:** HTTP Parameter Pollution can cause Express to parse query parameters as arrays instead of strings, leading to unexpected application errors.
+**How to improve:** Install and use HPP.
