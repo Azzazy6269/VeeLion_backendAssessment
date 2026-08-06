@@ -4,6 +4,9 @@ class HttpError extends Error {
     this.name = 'HttpError';
     this.statusCode = statusCode;
     this.details = details;
+    this.isOperational = true;
+
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 
