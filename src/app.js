@@ -4,6 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const { xss } = require('express-xss-sanitizer');
 const hpp = require('hpp');
+const ratelimiter = require('./middleware/rateLimiter');
 
 const tasksRouter = require('./modules/tasks/routes/tasks.routes');
 const activityRouter = require('./modules/activity/routes/activity.routes');
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use(xss());
 app.use(hpp());
 
+app.use(ratelimiter);
 app.use('/tasks', tasksRouter);
 app.use('/activity', activityRouter);
 
