@@ -46,3 +46,10 @@
 **What is wrong:** ErrorHandler sends same error structure and print iy in terminal in most cases.
 **Why it is a problem:** ErrorHandler doesn't distinguish between different cases like whether it's development or production and whether it's operational error or not. It sends same error structure in response and print same data in terminal in all cases. for example: In production, returning raw stack traces or internal messages for unknown 500 errors leaks sensitive system details (Security risk). Conversely, hiding error details during development hinders debugging
 **How to improve:** implemented consts IsDev, IsOperational, IsOperationalOrDev to specify responses and logs
+
+
+### 8. Validate Middleware
+**Category:** Code quality
+**What is wrong:** there's no tunnel between router and validation files.
+**Why it is a problem:** Data will not validated is expected which leads to save unwanted data.
+**How to improve:** Wrote Validate middleware which takes req.body and passes it after apply validation or throw httpError
