@@ -1,17 +1,18 @@
-const aSvc = require('../services/activity.service');
+const activityService = require('../services/activity.service');
 
-function get_activity(req, res) {
-  const x = aSvc.getAllActivity();
-  res.json(x);
+async function listActivities(req, res) {
+  const {page, limit} = req.query
+  const activities = await activityService.getAllActivities({page, limit});
+  res.status(200).json(activities);
 }
 
-function addActivity(req, res) {
+async function createNewActivity(req, res) {
   const bodyData = req.body || {};
-  const made = aSvc.createNewActivity(bodyData);
-  res.status(201).json(made);
+  const newActivity = await activityService.createNewActivity(bodyData);
+  res.status(201).json({data:{newActivity}});
 }
 
 module.exports = {
-  get_activity,
-  addActivity,
+  listActivities,
+  createNewActivity,
 };

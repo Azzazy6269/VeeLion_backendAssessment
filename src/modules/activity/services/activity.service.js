@@ -1,54 +1,58 @@
-const fs = require('node:fs');
 const path = require('node:path');
+const { readJsonArray, writeJsonArray } = require('../../../utils/jsonStore');
+const HttpError = require('../../../utils/httpError');
+const { createId } = require('../../../utils/id');
 
-const fp = path.join(process.cwd(), 'data', 'activity.json');
+const Activities_FILE_PATH = path.join(process.cwd(), 'data', 'activity.json');
 
-function loadDataA() {
-  if (!fs.existsSync(fp)) {
-    fs.writeFileSync(fp, '[]');
-  }
+function buildActivityRecord(payload) {
+  const now = new Date().toISOString();
 
-  let raw = fs.readFileSync(fp, 'utf8');
-  if (!raw) {
-    raw = '[]';
-  }
-
-  return JSON.parse(raw);
-}
-
-function loadDataB() {
-  if (!fs.existsSync(fp)) {
-    fs.writeFileSync(fp, '[]');
-  }
-
-  let raw = fs.readFileSync(fp, 'utf8');
-  if (!raw) {
-    raw = '[]';
-  }
-
-  return JSON.parse(raw);
-}
-
-function getAllActivity() {
-  const arr = loadDataA();
-  return arr;
-}
-
-function createNewActivity(b) {
-  const list = loadDataB();
-  const one = {
-    id: String(Date.now()),
-    action: b.action,
-    info: b.info,
-    when: new Date().toISOString(),
+  return {
+    id: createId(),
+    action: payload.action,
+    info: payload.info,
+    when: now
   };
+}
 
-  list.push(one);
-  fs.writeFileSync(fp, JSON.stringify(list, null, 2));
-  return one;
+async function getAllActivities({page, limit}) {
+  const activities = await readJsonArray(Activities_FILE_PATH);
+  const totalItems = activities.length;
+  const totalPages = Math.ceil(totalItems / limit) || 1;
+
+  if(page>totalPages){
+    throw new HttpError(404,"page not found. You exceeded total pages")
+  }
+
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+
+  const paginatedActivities = activities.slice(startIndex, endIndex);
+
+  return {
+    paginatedActivities,
+    pagination: {
+      page,
+      limit,
+      totalItems,
+      totalPages,
+      hasNextPage: page < totalPages,
+      hasPreviousPage: page > 1,
+    },
+  };
+}
+
+async function createNewActivity(payload) {
+  const activities = await readJsonArray(Activities_FILE_PATH);
+  const newActivity = buildActivityRecord(payload);
+
+  activities.push(newActivity);
+  await writeJsonArray(Activities_FILE_PATH,activities);
+  return newActivity;
 }
 
 module.exports = {
-  getAllActivity,
+  getAllActivities,
   createNewActivity,
 };

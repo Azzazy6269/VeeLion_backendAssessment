@@ -80,7 +80,7 @@
 **Category:** Performance
 **What is wrong:** When client call listTasks controller it retrieve all tasks stored in json file.
 **Why it is a problem:** If we have longer list of tasks, It will take time and consume resources to get all tasks while we have no idea if user really wants all of them or he can find the one he looks for in the first page.
-**How to improve:** apply pagination by getting page and limit in query params.
+**How to improve:** apply pagination by getting page and limit in req.query.
 
 
 ### 13. Validate req.query and req.params
@@ -95,3 +95,52 @@
 **What is wrong:** All task validation rules were kept in a single `taskValidator.js` file despite each endpoint having distinct requirements.
 **Why it is a problem:** Placing all validators in one file makes it bloated, hard to navigate, and increases the risk of side effects when modifying specific endpoint logic.
 **How to improve:** Modularized validation into operation-specific files (`createTask.validator.js`, `updateTask.validator.js`, etc.), extracted shared logic into `validator.js`, and exposed them via a clean `index.js` entry point.
+
+
+### 15. Used readJsonArray, writeJsonArray from jsonStore in activity service
+**Category:** Code quality
+**What is wrong:** The Activity service used it's own logic to read and writ json instead of reusing the centralized helper functions (`readJsonArray` and `writeJsonArray`) provided by `jsonStore.js`.
+**Why it is a problem:** Duplicate file I/O handling creates code redundancy and makes future file storage updates or error-handling improvements harder to maintain across services.
+**How to improve:** Refactored `activity.service.js` to utilize `readJsonArray` and `writeJsonArray` from `jsonStore.js` for consistent and centralized JSON file management.
+
+
+### 16. Used suitable names for variables, functions, and functions params in activity module
+**Category:** Code quality
+**What is wrong:** most variables, functions and functions params in activity module( controllev, service, routes ) don't descripe their values well.
+**Why it is a problem:** This makes code unreadable and hard to reusable as you have to follow every function and variable to understand it's role in the code. It makes it hard to scale out the code and add more endpints as every file will have tens of variables and functions that we can't understand easily what its role is.
+**How to improve:** Replace their names with more suitable names.
+
+
+### 17. Used asyncHandler in activity.routes.js
+**Category:** Bugs
+**What is wrong:** There's no Handler for the requests to catch errors.
+**Why it is a problem:** Any error happens due to unexpected data or any other reasons can crash the server.
+**How to improve:** Used our global asyncHandler.
+
+
+### 18. Used async/await in activity controller and service
+**Category:** Bugs
+**What is wrong:** although read and write in json file happens asynchronously and return promises but the code doesn't use async/await with them.
+**Why it is a problem:** The code will not work asynchrounsly and it will return response to the client before data logic was handled by jsonStore.js.
+**How to improve:** Used async/await in activity module.
+
+
+### 19. Used Pagination with list all activities
+**Category:** Performance
+**What is wrong:** When client calls listActivities controller it retrieve all activities stored in json file.
+**Why it is a problem:** If we have longer list of activities, It will take time and consume resources to get all activities while we have no idea if user really wants all of them or he can find the one he looks for in the first page.
+**How to improve:** apply pagination by getting page and limit in req.query.
+
+
+### 20. Implement Activity Validator
+**Category:** Bugs / Code quality
+**What is wrong:** There's no validation for activities requests.
+**Why it is a problem:** This might save unwanted data or crash server if client called endpoint with unexpected inputs.
+**How to improve:** Implement Modularized validation into operation-specific files (`createActivity.validator.js`, `listActivities.validator.js`, etc.), extracted shared logic into `validator.js`, and exposed them via a clean `index.js` entry point.
+
+
+### 21. buildActivityRecord helper function Validator
+**Category:** Code quality
+**What is wrong:** Activity record construction logic was tightly coupled within the service operation..
+**Why it is a problem:** inline object creation reduces code reusability and maintainability.
+**How to improve:** Extracted object formatting into a dedicated `buildActivityRecord` helper function for cleaner encapsulation.
