@@ -67,3 +67,31 @@
 **What is wrong:** The project lacks standard code linting rules (ESLint) and an explicit module resolution configuration
 **Why it is a problem:** code quality issues, unused variables, undefined variables, inconsistent code styling, wrong requird params, and potential syntax bugs go unnoticed.
 **How to improve:** Used ESlint and jsconfig to discover undefined Variables, unused Var, wrong num of params and formatting bugs
+
+
+### 11. Remove Validation from Tasks Controller and Service and rely Validation Middleware
+**Category:** Bug / Code Quality
+**What is wrong:** The Tasks module has a validation file, but the request flow does not depend on it. Instead, validation is performed in both the controller and the service.
+**Why it is a problem:** `req.body` is validated multiple times across different files instead of relying on a single validation middleware. This can lead to conflicts, unintended bugs, and a violation of the application's architecture.
+**How to improve:** Remove validation logic from the Tasks controller and service, and rely on the validation middleware to handle request validation.
+
+
+### 12. Used Pagination with list all tasks
+**Category:** Performance
+**What is wrong:** When client call listTasks controller it retrieve all tasks stored in json file.
+**Why it is a problem:** If we have longer list of tasks, It will take time and consume resources to get all tasks while we have no idea if user really wants all of them or he can find the one he looks for in the first page.
+**How to improve:** apply pagination by getting page and limit in query params.
+
+
+### 13. Validate req.query and req.params
+**Category:** Bugs / Performance
+**What is wrong:** taskValidator validates only req.body.
+**Why it is a problem:** client can send invalid params or query which leads to bugs and consume resources while we can prevent the request before it's get handled by controller.
+**How to improve:** implement validation for params and query and allow validate middleware to accept 3 validator functions( validator.body, validator.params, validator.query).
+
+
+### 14. Exchange Monolithic Task Validator Structure
+**Category:** Maintainability / Code quality
+**What is wrong:** All task validation rules were kept in a single `taskValidator.js` file despite each endpoint having distinct requirements.
+**Why it is a problem:** Placing all validators in one file makes it bloated, hard to navigate, and increases the risk of side effects when modifying specific endpoint logic.
+**How to improve:** Modularized validation into operation-specific files (`createTask.validator.js`, `updateTask.validator.js`, etc.), extracted shared logic into `validator.js`, and exposed them via a clean `index.js` entry point.
