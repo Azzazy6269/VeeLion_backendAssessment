@@ -80,7 +80,7 @@
 **Category:** Performance
 **What is wrong:** When client call listTasks controller it retrieve all tasks stored in json file.
 **Why it is a problem:** If we have longer list of tasks, It will take time and consume resources to get all tasks while we have no idea if user really wants all of them or he can find the one he looks for in the first page.
-**How to improve:** apply pagination by getting page and limit in query params.
+**How to improve:** apply pagination by getting page and limit in req.query.
 
 
 ### 13. Validate req.query and req.params
@@ -123,3 +123,10 @@
 **What is wrong:** although read and write in json file happens asynchronously and return promises but the code doesn't use async/await with them.
 **Why it is a problem:** The code will not work asynchrounsly and it will return response to the client before data logic was handled by jsonStore.js.
 **How to improve:** Used async/await in activity module.
+
+
+### 19. Used Pagination with list all activities
+**Category:** Performance
+**What is wrong:** When client calls listActivities controller it retrieve all activities stored in json file.
+**Why it is a problem:** If we have longer list of activities, It will take time and consume resources to get all activities while we have no idea if user really wants all of them or he can find the one he looks for in the first page.
+**How to improve:** apply pagination by getting page and limit in req.query.

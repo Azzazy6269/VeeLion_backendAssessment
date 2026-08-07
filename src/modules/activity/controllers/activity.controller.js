@@ -1,7 +1,8 @@
 const activityService = require('../services/activity.service');
 
 async function listActivities(req, res) {
-  const activities = await activityService.getAllActivity();
+  const {page, limit} = req.query
+  const activities = await activityService.getAllActivities({page, limit});
   res.status(200).json(activities);
 }
 
