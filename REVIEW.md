@@ -95,3 +95,10 @@
 **What is wrong:** All task validation rules were kept in a single `taskValidator.js` file despite each endpoint having distinct requirements.
 **Why it is a problem:** Placing all validators in one file makes it bloated, hard to navigate, and increases the risk of side effects when modifying specific endpoint logic.
 **How to improve:** Modularized validation into operation-specific files (`createTask.validator.js`, `updateTask.validator.js`, etc.), extracted shared logic into `validator.js`, and exposed them via a clean `index.js` entry point.
+
+
+### 15. Used readJsonArray, writeJsonArray from jsonStore in activity service
+**Category:** Code quality
+**What is wrong:** The Activity service used it's own logic to read and writ json instead of reusing the centralized helper functions (`readJsonArray` and `writeJsonArray`) provided by `jsonStore.js`.
+**Why it is a problem:** Duplicate file I/O handling creates code redundancy and makes future file storage updates or error-handling improvements harder to maintain across services.
+**How to improve:** Refactored `activity.service.js` to utilize `readJsonArray` and `writeJsonArray` from `jsonStore.js` for consistent and centralized JSON file management.
