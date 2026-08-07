@@ -137,3 +137,10 @@
 **What is wrong:** There's no validation for activities requests.
 **Why it is a problem:** This might save unwanted data or crash server if client called endpoint with unexpected inputs.
 **How to improve:** Implement Modularized validation into operation-specific files (`createActivity.validator.js`, `listActivities.validator.js`, etc.), extracted shared logic into `validator.js`, and exposed them via a clean `index.js` entry point.
+
+
+### 21. buildActivityRecord helper function Validator
+**Category:** Code quality
+**What is wrong:** Activity record construction logic was tightly coupled within the service operation..
+**Why it is a problem:** inline object creation reduces code reusability and maintainability.
+**How to improve:** Extracted object formatting into a dedicated `buildActivityRecord` helper function for cleaner encapsulation.

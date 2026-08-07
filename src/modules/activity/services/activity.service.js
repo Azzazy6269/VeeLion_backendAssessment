@@ -1,9 +1,20 @@
 const path = require('node:path');
 const { readJsonArray, writeJsonArray } = require('../../../utils/jsonStore');
 const HttpError = require('../../../utils/httpError');
+const { createId } = require('../../../utils/id');
 
 const Activities_FILE_PATH = path.join(process.cwd(), 'data', 'activity.json');
 
+function buildActivityRecord(payload) {
+  const now = new Date().toISOString();
+
+  return {
+    id: createId(),
+    action: payload.action,
+    info: payload.info,
+    when: now
+  };
+}
 
 async function getAllActivities({page, limit}) {
   const activities = await readJsonArray(Activities_FILE_PATH);
@@ -34,15 +45,10 @@ async function getAllActivities({page, limit}) {
 
 async function createNewActivity(payload) {
   const activities = await readJsonArray(Activities_FILE_PATH);
-  const newActivity = {
-    id: String(Date.now()),
-    action: payload.action,
-    info: payload.info,
-    when: new Date().toISOString(),
-  };
+  const newActivity = buildActivityRecord(payload);
 
   activities.push(newActivity);
-  writeJsonArray(Activities_FILE_PATH,activities);
+  await writeJsonArray(Activities_FILE_PATH,activities);
   return newActivity;
 }
 
