@@ -130,3 +130,10 @@
 **What is wrong:** When client calls listActivities controller it retrieve all activities stored in json file.
 **Why it is a problem:** If we have longer list of activities, It will take time and consume resources to get all activities while we have no idea if user really wants all of them or he can find the one he looks for in the first page.
 **How to improve:** apply pagination by getting page and limit in req.query.
+
+
+### 20. Implement Activity Validator
+**Category:** Bugs / Code quality
+**What is wrong:** There's no validation for activities requests.
+**Why it is a problem:** This might save unwanted data or crash server if client called endpoint with unexpected inputs.
+**How to improve:** Implement Modularized validation into operation-specific files (`createActivity.validator.js`, `listActivities.validator.js`, etc.), extracted shared logic into `validator.js`, and exposed them via a clean `index.js` entry point.

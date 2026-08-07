@@ -1,8 +1,10 @@
-const { validate } = require('uuid');
 const HttpError = require('../../../../utils/httpError');
 
 const MIN_TITLE_LENGTH = 3;
 const MAX_TITLE_LENGTH = 255;
+
+const MIN_INFO_LENGTH = 3;
+const MAX_INFO_LENGTH = 255;
 
 function validateObjectShape(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
@@ -27,50 +29,49 @@ function validateObject(input,allowedFields) {
   ensureNoUnknownFields(input,allowedFields);
 }
 
-function normalizeTitleIfPresent(payload, normalized) {
-  if (!Object.hasOwn(payload, 'title')) {
+function normalizeActionIfPresent(payload, normalized) {
+    console.log("payload",payload)
+  if (!Object.hasOwn(payload, 'action')) {
     return;
   }
 
-  if (typeof payload.title !== 'string') {
-    throw new HttpError(400, 'title must be a string.');
+  if (typeof payload.action !== 'string') {
+    throw new HttpError(400, 'action must be a string.');
   }
 
-  const trimmedTitle = payload.title.trim();
+  const trimmedAction = payload.action.trim();
 
-  if(trimmedTitle.length > MAX_TITLE_LENGTH){
-    throw new HttpError(400,'title max length = 255')
+  if(trimmedAction.length > MAX_TITLE_LENGTH){
+    throw new HttpError(400,'action max length = 255')
   }
 
-  if(trimmedTitle.length < MIN_TITLE_LENGTH){
-    throw new HttpError(400,'title min length = 3')
+  if(trimmedAction.length < MIN_TITLE_LENGTH){
+    throw new HttpError(400,'action min length = 3')
   }
 
-  normalized.title = trimmedTitle;
+  normalized.action = trimmedAction;
 }
 
-function normalizeCompletedIfPresent(payload, normalized) {
-  if (!Object.hasOwn(payload, 'completed')) {
+function normalizeInfoIfPresent(payload, normalized) {
+  if (!Object.hasOwn(payload, 'info')) {
     return;
   }
 
-  if (typeof payload.completed !== 'boolean') {
-    throw new HttpError(400, 'completed must be a boolean.');
+  if (typeof payload.info !== 'string') {
+    throw new HttpError(400, 'info must be a string.');
   }
 
-  normalized.completed = payload.completed;
-}
+  const trimmedInfo = payload.info.trim();
 
-function normalizeIdIfPresent(params, normalized) {
-  if (!Object.hasOwn(params, 'id')) {
-    return;
+  if(trimmedInfo.length > MAX_INFO_LENGTH){
+    throw new HttpError(400,'info max length = 255')
   }
 
-  if (!validate(params.id)) {
-    throw new HttpError(400, 'id must be a valid UUID.');
+  if(trimmedInfo.length < MIN_INFO_LENGTH){
+    throw new HttpError(400,'info max length = 3')
   }
 
-  normalized.id = params.id;
+  normalized.info = trimmedInfo;
 }
 
 function normalizePageIfPresent(query, normalized) {
@@ -107,9 +108,8 @@ module.exports = {
   validateObjectShape,
   ensureNoUnknownFields,
   validateObject,
-  normalizeTitleIfPresent,
-  normalizeCompletedIfPresent,
-  normalizeIdIfPresent,
+  normalizeActionIfPresent,
+  normalizeInfoIfPresent,
   normalizePageIfPresent,
   normalizeLimitIfPresent
 };
