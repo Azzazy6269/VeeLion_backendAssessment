@@ -144,3 +144,11 @@
 **What is wrong:** Activity record construction logic was tightly coupled within the service operation..
 **Why it is a problem:** inline object creation reduces code reusability and maintainability.
 **How to improve:** Extracted object formatting into a dedicated `buildActivityRecord` helper function for cleaner encapsulation.
+
+
+### 22. Implementation of Reports Module
+
+* **Category:** Maintainability / Code Quality
+* **What is wrong:** The system lacked an analytics and insights aggregation endpoint (`GET /reports/tasks-summary`).
+* **Why it is a problem:** Clients had no direct way to view high-level task status distribution (`todo`, `in-progress`, `done`) or total activity logs.
+* **How to improve:** Created a dedicated, clean-architecture `Reports` module consisting of a service, controller, and route setup. Dynamically derived task statuses based on metadata comparisons (`completed` boolean and `updatedAt` vs `createdAt` timestamps) and fetch activities count to generate summary reports.(Although there's no data to validate in report requests, but I added validators folder to follow the archeticture of the project).

@@ -8,13 +8,17 @@ const ratelimiter = require('./middleware/rateLimiter');
 
 const tasksRouter = require('./modules/tasks/routes/tasks.routes');
 const activityRouter = require('./modules/activity/routes/activity.routes');
+const reportsRouter = require('./modules/report/routes/reports.routes');
 const errorHandler = require('./middleware/errorHandler');
 const HttpError = require('./utils/httpError');
 
 const app = express();
 
-app.use(helmet());
-
+app.use(helmet.default());
+//console.log(typeof helmet);
+console.log(helmet);
+console.log(helmet.default);
+console.log(typeof helmet.default);
 app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
 
 if (process.env.NODE_ENV === 'development') {
@@ -32,7 +36,7 @@ app.use(hpp());
 app.use(ratelimiter);
 app.use('/tasks', tasksRouter);
 app.use('/activity', activityRouter);
-
+app.use('/reports', reportsRouter)
 app.use((req, res, next) => {
   next(new HttpError(404, `Route not found: ${req.method} ${req.originalUrl}`));
 });
