@@ -102,3 +102,10 @@
 **What is wrong:** The Activity service used it's own logic to read and writ json instead of reusing the centralized helper functions (`readJsonArray` and `writeJsonArray`) provided by `jsonStore.js`.
 **Why it is a problem:** Duplicate file I/O handling creates code redundancy and makes future file storage updates or error-handling improvements harder to maintain across services.
 **How to improve:** Refactored `activity.service.js` to utilize `readJsonArray` and `writeJsonArray` from `jsonStore.js` for consistent and centralized JSON file management.
+
+
+### 16. Use suitable names for variables, functions, and functions params in activity module
+**Category:** Code quality
+**What is wrong:** most variables, functions and functions params in activity module( controllev, service, routes ) don't descripe their values well.
+**Why it is a problem:** This makes code unreadable and hard to reusable as you have to follow every function and variable to understand it's role in the code. It makes it hard to scale out the code and add more endpints as every file will have tens of variables and functions that we can't understand easily what its role is.
+**How to improve:** Replace their names with more suitable names.

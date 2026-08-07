@@ -2,26 +2,26 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { readJsonArray, writeJsonArray } = require('../../../utils/jsonStore');
 
-const fp = path.join(process.cwd(), 'data', 'activity.json');
+const filePath = path.join(process.cwd(), 'data', 'activity.json');
 
 
 async function getAllActivity() {
-  const arr = await readJsonArray(fp);
-  return arr;
+  const activities = await readJsonArray(filePath);
+  return activities;
 }
 
-async function createNewActivity(b) {
-  const list = await readJsonArray(fp);
-  const one = {
+async function createNewActivity(payload) {
+  const activities = await readJsonArray(filePath);
+  const newActivity = {
     id: String(Date.now()),
-    action: b.action,
-    info: b.info,
+    action: payload.action,
+    info: payload.info,
     when: new Date().toISOString(),
   };
 
-  list.push(one);
-  writeJsonArray(fp,list);
-  return one;
+  activities.push(newActivity);
+  writeJsonArray(filePath,activities);
+  return newActivity;
 }
 
 module.exports = {
