@@ -67,3 +67,10 @@
 **What is wrong:** The project lacks standard code linting rules (ESLint) and an explicit module resolution configuration
 **Why it is a problem:** code quality issues, unused variables, undefined variables, inconsistent code styling, wrong requird params, and potential syntax bugs go unnoticed.
 **How to improve:** Used ESlint and jsconfig to discover undefined Variables, unused Var, wrong num of params and formatting bugs
+
+
+### 11. Remove Validation from Tasks Controller and Service and rely Validation Middleware
+**Category:** Bug / Code Quality
+**What is wrong:** The Tasks module has a validation file, but the request flow does not depend on it. Instead, validation is performed in both the controller and the service.
+**Why it is a problem:** `req.body` is validated multiple times across different files instead of relying on a single validation middleware. This can lead to conflicts, unintended bugs, and a violation of the application's architecture.
+**How to improve:** Remove validation logic from the Tasks controller and service, and rely on the validation middleware to handle request validation.
