@@ -9,7 +9,7 @@ async function listActivities(req, res) {
 async function createNewActivity(req, res) {
   const bodyData = req.body || {};
   const newActivity = await activityService.createNewActivity(bodyData);
-  res.status(201).json(newActivity);
+  res.status(201).json({data:{newActivity}});
 }
 
 module.exports = {

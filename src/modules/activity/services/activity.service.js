@@ -31,7 +31,7 @@ async function getAllActivities({page, limit}) {
   const paginatedActivities = activities.slice(startIndex, endIndex);
 
   return {
-    data: paginatedActivities,
+    paginatedActivities,
     pagination: {
       page,
       limit,
