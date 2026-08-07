@@ -18,21 +18,21 @@ function buildTaskRecord(payload) {
   };
 }
 
-async function getAllTasks({ page = 1, limit = 10 }) {
+async function getAllTasks({ page , limit }) {
   const tasks = await readJsonArray(TASKS_FILE_PATH);
 
   const totalItems = tasks.length;
-  const totalPages = Math.ceil(totalItems / limit);
+  const totalPages = Math.ceil(totalItems / limit) || 1;
+
+  if(page>totalPages){
+    throw new HttpError(404,"page not found. You exceeded total pages")
+  }
 
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
 
   const paginatedTasks = tasks.slice(startIndex, endIndex);
 
-  if(page>totalPages){
-    throw new HttpError(404,"page not found. You exceeded total pages")
-  }
-  
   return {
     data: paginatedTasks,
     pagination: {
