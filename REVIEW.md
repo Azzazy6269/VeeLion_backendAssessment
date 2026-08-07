@@ -104,8 +104,15 @@
 **How to improve:** Refactored `activity.service.js` to utilize `readJsonArray` and `writeJsonArray` from `jsonStore.js` for consistent and centralized JSON file management.
 
 
-### 16. Use suitable names for variables, functions, and functions params in activity module
+### 16. Used suitable names for variables, functions, and functions params in activity module
 **Category:** Code quality
 **What is wrong:** most variables, functions and functions params in activity module( controllev, service, routes ) don't descripe their values well.
 **Why it is a problem:** This makes code unreadable and hard to reusable as you have to follow every function and variable to understand it's role in the code. It makes it hard to scale out the code and add more endpints as every file will have tens of variables and functions that we can't understand easily what its role is.
 **How to improve:** Replace their names with more suitable names.
+
+
+### 17. Used asyncHandler in activity.routes.js
+**Category:** Bugs
+**What is wrong:** There's no Handler for the requests to catch errors.
+**Why it is a problem:** Any error happens due to unexpected data or any other reasons can crash the server.
+**How to improve:** Used our global asyncHandler.
