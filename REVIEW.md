@@ -60,3 +60,10 @@
 **What is wrong:** The application lacked request rate limiting, exposing APIs to abuse.
 **Why it is a problem:** Malicious actors or runaway clients could overwhelm the server with excessive requests, leading to Denial of Service (DoS/DDoS) or resource exhaustion.
 **How to improve:** Integrated the `express-rate-limit` package to throttle incoming client requests.
+
+
+### 10. ESlint, jsconfig.js
+**Category:** Maintainability
+**What is wrong:** The project lacks standard code linting rules (ESLint) and an explicit module resolution configuration
+**Why it is a problem:** code quality issues, unused variables, undefined variables, inconsistent code styling, wrong requird params, and potential syntax bugs go unnoticed.
+**How to improve:** Used ESlint and jsconfig to discover undefined Variables, unused Var, wrong num of params and formatting bugs
