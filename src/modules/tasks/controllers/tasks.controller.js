@@ -9,7 +9,7 @@ async function listTasks(req, res) {
 
 async function getTask(req, res) {
   const task = await tasksService.getTaskById(req.params.id);
-  res.status(200).json({ data: task });
+  res.status(200).json({ data: {task} });
 }
 
 async function createTask(req, res) {
@@ -17,7 +17,7 @@ async function createTask(req, res) {
 
   const task = await tasksService.createTask(payload);
 
-  res.status(201).json({ data: task });
+  res.status(201).json({ data: {"created task":task} });
 }
 
 async function patchTask(req, res) {
@@ -25,11 +25,11 @@ async function patchTask(req, res) {
 
   const task = await tasksService.updateTask(req.params.id, updates);
 
-  res.status(200).json({ data: task });
+  res.status(200).json({ data: {"updated task":task} });
 }
 
 async function removeTask(req, res) {
-  await tasksService.deleteTask(req.params.id);
+  const removedTask = await tasksService.deleteTask(req.params.id);
   res.status(204).send();
 }
 
