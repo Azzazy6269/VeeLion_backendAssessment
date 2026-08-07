@@ -1,8 +1,10 @@
 const tasksService = require('../services/tasks.service');
 
 async function listTasks(req, res) {
-  const tasks = await tasksService.getAllTasks();
-  res.status(200).json({ data: tasks });
+  const page = req.query.page;
+  const limit = req.query.limit;
+  const result = await tasksService.getAllTasks({ page, limit });
+  res.status(200).json(result);
 }
 
 async function getTask(req, res) {

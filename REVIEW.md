@@ -74,3 +74,10 @@
 **What is wrong:** The Tasks module has a validation file, but the request flow does not depend on it. Instead, validation is performed in both the controller and the service.
 **Why it is a problem:** `req.body` is validated multiple times across different files instead of relying on a single validation middleware. This can lead to conflicts, unintended bugs, and a violation of the application's architecture.
 **How to improve:** Remove validation logic from the Tasks controller and service, and rely on the validation middleware to handle request validation.
+
+
+### 12. Used Pagination with list all tasks
+**Category:** Performance
+**What is wrong:** When client call listTasks controller it retrieve all tasks stored in json file.
+**Why it is a problem:** If we have longer list of tasks, It will take time and consume resources to get all tasks while we have no idea if user really wants all of them or he can find the one he looks for in the first page.
+**How to improve:** apply pagination by getting page and limit in query params.

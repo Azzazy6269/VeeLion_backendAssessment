@@ -18,8 +18,32 @@ function buildTaskRecord(payload) {
   };
 }
 
-async function getAllTasks() {
-  return readJsonArray(TASKS_FILE_PATH);
+async function getAllTasks({ page = 1, limit = 10 }) {
+  const tasks = await readJsonArray(TASKS_FILE_PATH);
+
+  const totalItems = tasks.length;
+  const totalPages = Math.ceil(totalItems / limit);
+
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+
+  const paginatedTasks = tasks.slice(startIndex, endIndex);
+
+  if(page>totalPages){
+    throw new HttpError(404,"page not found. You exceeded total pages")
+  }
+  
+  return {
+    data: paginatedTasks,
+    pagination: {
+      page,
+      limit,
+      totalItems,
+      totalPages,
+      hasNextPage: page < totalPages,
+      hasPreviousPage: page > 1,
+    },
+  };
 }
 
 async function getTaskById(taskId) {
