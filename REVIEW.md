@@ -116,3 +116,10 @@
 **What is wrong:** There's no Handler for the requests to catch errors.
 **Why it is a problem:** Any error happens due to unexpected data or any other reasons can crash the server.
 **How to improve:** Used our global asyncHandler.
+
+
+### 18. Used async/await in activity controller and service
+**Category:** Bugs
+**What is wrong:** although read and write in json file happens asynchronously and return promises but the code doesn't use async/await with them.
+**Why it is a problem:** The code will not work asynchrounsly and it will return response to the client before data logic was handled by jsonStore.js.
+**How to improve:** Used async/await in activity module.

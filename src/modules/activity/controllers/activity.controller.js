@@ -1,13 +1,13 @@
 const activityService = require('../services/activity.service');
 
-function listActivities(req, res) {
-  const activities = activityService.getAllActivity();
-  res.json(activities);
+async function listActivities(req, res) {
+  const activities = await activityService.getAllActivity();
+  res.status(200).json(activities);
 }
 
-function createNewActivity(req, res) {
+async function createNewActivity(req, res) {
   const bodyData = req.body || {};
-  const newActivity = activityService.createNewActivity(bodyData);
+  const newActivity = await activityService.createNewActivity(bodyData);
   res.status(201).json(newActivity);
 }
 
